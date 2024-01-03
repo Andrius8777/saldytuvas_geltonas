@@ -34,9 +34,16 @@ def add_product(key, value = 0):
 def remove_product(name):
     
     if name in fridge_content.keys():
-        del fridge_content[name]
-        print(f'Item {name} has been removed from the fridge')
-        print(f'Fridge now has: {fridge_content}')
+        print(f'Would you like to remove all {name} form the fridge?')
+        condition = input('y/n: ')
+        if condition.lower() == 'y':
+            del fridge_content[name]
+            print(f'Item {name} has been removed from the fridge')
+            print(f'Fridge now has: {fridge_content}')
+        elif condition.lower() == 'n':
+            print(f'Type amount of {name} you would like to remove')
+            r_product = input()
+            fridge_content[name] = fridge_content[name] - r_product
     else:
         print('Item has not been found in the fridge, maybe you have already removed it from the fridge')
 
@@ -49,34 +56,55 @@ def check_product(name):
 
 def print_content_fridge():
     
-    print(fridge_content)
+    for key, value in fridge_content.items():
+        print(f'* {key} : {value}')
 
 # Bonus tasks
 
-recepy = 0
+def recepy_create(input_string):
+    recepy = {}    
+    pairs = input_string.split(',')
+    
+    for pair in pairs:
+        key_value = pair.strip().split(':')
+        
+        if len(key_value) == 2:
+            key = key_value[0].strip()
+            value = key_value[1].strip()
+            
+            try:
+                recepy[key] = float(value)
+            except ValueError:
+                recepy[key] = value  
+        else:
+            print(f"Ignoring invalid pair: {pair}")
+    
+    print('Recepy has beed created:')
+    for key in recepy:
+        print(f'{key} : {recepy[key]}')
+    return recepy
+    
 
-def check_recepy():
+def check_recepy(fridge_content, recepy):
     pass
 
-def input_recepy():
-    pass
-
-def recepy_fail():
-    pass
 
 # Main function
 
-def main():
-    while True:
+def main(run = True):
+
+    while run == True:
+
         print("Yellow Submerged Fridge")
         print("0: Exit")
         print("1: Add to the fridge")
         print("2: Remove from the fridge")
-        print("2: Add a task")
-        print('3: Mark task done/undone')
-        print("4: Remove a task")
+        print("3: Check for Product")
+        print("4: Show conntent of the fridge")
+        print("5: Recepy creation")
         choice = input("Choice: ")
         if choice == "0":
+            run == False
             break
         if choice == '1':
             key = input('What product would you like to add?: ')
@@ -85,6 +113,17 @@ def main():
         if choice == '2':
             name = input('What product would you like to remove?: ')
             remove_product(name)
+        if choice == '3':
+            name = input('What product you are looking for?')
+            check_product(name)
+        if choice == '4':
+            print_content_fridge
+        if choice == '5':
+            recepy = input('Please write items needed for recepy: ')
+            recepy_create(recepy)
+
+
+
 
         
         
@@ -97,9 +136,7 @@ add_product('pienas', 2.3)
 add_product('pomidoras', 7.58)
 add_product('kiausiniai', 50)
 check_product('pienas')
-remove_product('pienas')
 print_content_fridge()
-print(recepy)
 check_recepy()
-input_recepy()
-recepy_fail()
+
+main()
