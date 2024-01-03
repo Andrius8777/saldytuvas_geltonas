@@ -167,3 +167,6 @@ check_product(fridge_content, 'pienas')
 print_content_fridge(fridge_content)
 
 main(fridge_content)
+
+
+####wwww
