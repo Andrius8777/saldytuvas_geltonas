@@ -54,3 +54,6 @@ class Recipe:
             print('extracting file')
             recipe_data = json.load(file)
             return recipe_data
+        
+
+##TESTAS
